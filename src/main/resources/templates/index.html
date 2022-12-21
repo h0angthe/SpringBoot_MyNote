@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,
+			shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="images/favicon.ico">
+    <title>Medialoot Bootstrap 4 Dashboard Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="css/font-awesome.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .btn-custom{
+            padding: 3px 3px 3px 8px;
+            text-transform: none;
+            margin-bottom: 2px;
+            margin-top: 2px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container-fluid" id="wrapper">
+    <div class="row">
+        <nav class="sidebar col-xs-12 col-sm-4 col-lg-3 col-xl-2">
+            <h1 class="site-title"><a href="/"><em class="fa fa-rocket"></em>
+                Idea Note</a></h1>
+
+            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em
+                    class="fa fa-bars"></em></a>
+            <ul class="nav nav-pills flex-column sidebar-nav">
+                <li class="nav-item"><a class="nav-link active" href="/"><em
+                        class="fa fa-clone"></em> My Note <span class="sr-only">(current)</span></a></li>
+                <li class="parent nav-item"><a class="nav-link active"
+                                               data-toggle="collapse" href="#sub-item-1">
+                    <em class="fa fa-tags">&nbsp;</em> Tag <span data-toggle="collapse"
+                                                                 href="#sub-item-1" class="icon pull-right"><i
+                        class="fa fa-plus"></i></span>
+                </a>
+                    <ul class="children collapse" id="sub-item-1">
+                        <li class="nav-item"><a class="nav-link" href="#" id="addtag">
+                            Tạo mới
+                        </a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" id="edittag">
+                            Edit
+                        </a></li>
+                    </ul>
+                <li id="taglist"></li>
+            </ul>
+
+            <a href="#" class="logout-button" id="btnlogout"><em class="fa fa-power-off"></em>
+                Signout</a></nav>
+        <main class="col-xs-12 col-sm-8 col-lg-9 col-xl-10 pt-3 pl-4 ml-auto">
+            <header class="page-header row justify-center">
+                <div class="col-md-6 col-lg-8">
+                    <h1 class="float-left text-center text-md-left">My Note</h1>
+                </div>
+                <div class="dropdown user-dropdown col-md-6 col-lg-4 text-center
+								text-md-right"><a class="btn btn-stripped dropdown-toggle"
+                                                  href="https://example.com" id="dropdownMenuLink"
+                                                  data-toggle="dropdown"
+                                                  aria-haspopup="true" aria-expanded="false">
+                    <img src="images/profile-pic.jpg" alt="profile photo" class="circle
+										float-left profile-photo" width="50" height="auto">
+                    <div class="username mt-1">
+                        <h4 class="mb-1" id="username"></h4>
+                        <h6 class="text-muted">Super Admin</h6>
+                    </div>
+                </a>
+                    <div class="dropdown-menu dropdown-menu-right" style="margin-right:
+									1.5rem;" aria-labelledby="dropdownMenuLink"><a class="dropdown-item"
+                                                                                   href="#"><em
+                            class="fa fa-user-circle mr-1"></em> View Profile</a>
+                        <a class="dropdown-item" href="#"><em class="fa fa-sliders mr-1"></em>
+                            Preferences</a>
+                        <a class="dropdown-item" href="#"><em class="fa fa-power-off mr-1"></em>
+                            Logout</a></div>
+                </div>
+                <div class="clear"></div>
+            </header>
+            <div class="row">
+                <section class="row">
+                    <div class="container-fluid">
+                        <a href="#" class="btn btn-primary" id="addnew"><span class="fa
+											fa-plus"></span>&nbsp;Add Note</a></div>
+                </section>
+            </div>
+            <br><br>
+            <div class="row" id="cardbox">
+            </div>
+            <div class="modal" tabindex="-1" role="dialog" id="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Note</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form" action="#">
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Title</label>
+                                    <div class="col-md-9">
+                                        <input type="text" name="name" class="form-control" id="titlenote">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Content</label>
+                                    <div class="col-md-9">
+                                        <textarea class="form-control" id="contentnote" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Tag</label>
+                                    <select class="selectpicker" multiple id="selm">
+
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    id="btnclose">Close
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    id="btnadd">Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" tabindex="-1" role="dialog" id="dialogUpdateNote">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Update Note</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form" action="#">
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Title</label>
+                                    <div class="col-md-9">
+                                        <input type="text" name="name" class="form-control" id="updatetitle">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Content</label>
+                                    <div class="col-md-9">
+                                        <textarea class="form-control" id="updatecontent" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Tag</label>
+                                    <select class="selectpicker" multiple id="selmupdate">
+
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    id="btncloseupdate">Close
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    id="btnupdate">Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" tabindex="-1" role="dialog" id="dialogtag">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Tag</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form" action="#">
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Tag name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" name="name" class="form-control" id="tagname">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    id="btnclosetag">Close
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    id="btnaddtag">Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" tabindex="-1" role="dialog" id="dialogtagedit">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Update Tag</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form" action="#">
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Tag name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" name="name" class="form-control" id="tagnameupdate">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    id="btncloseedittag">Close
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    id="btnupdatetag">Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" tabindex="-1" role="dialog" id="dialogtaglist">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Tag List</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <table class='table table-responsive table-borderless' id="dialoglist">
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    id="btnclosetaglist">Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" tabindex="-1" role="dialog" id="dialogtaglist1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Tag List</h5>
+                        </div>
+                        <div class="modal-body" id="dialoglist1">
+                            <form class="form" action="#">
+                                <div class="col-md-9">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Recipient's username"
+                                               aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button">Button</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        Default checkbox
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                                    <label class="form-check-label" for="defaultCheck2">
+                                        Disabled checkbox
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    id="closetaglist">Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<input type="hidden" id="user-id">
+<div class="modal" tabindex="-1" role="dialog" id="dialoglogin">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" aria-label="Close" id="closelogin">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="card-body p-4 p-sm-5">
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" name="floatingInput"
+                               placeholder="Username">
+                    </div>
+                    <div class="form-floating mb-3">
+                        <button class="btn btn-primary btn-login text-uppercase fw-bold form-control" id="btnlogin">Sign
+                            in
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        checkName();
+
+        $("#closelogin").click(function () {
+            $("#dialoglogin").hide();
+        });
+
+        $("#btnlogin").click(function () {
+            let username = $("#floatingInput").val();
+
+            if (!username) {
+                alert("Enter the name !!!");
+                return;
+            }
+
+            let data = {
+                username: username
+            }
+
+            $.ajax({
+                url: "/api/name",
+                type: "POST",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(data)
+            })
+                .done(function (result) {
+                    console.log("result: ", result);
+                    $("#dialoglogin").hide();
+                    checkName();
+                })
+                .fail(function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem!");
+                    console.log("Error: ", errorThrown);
+                    console.log("Status: ", status);
+                    console.dir(xhr);
+                });
+        });
+        $("#btnaddtag").click(function () {
+            let tagname = $("#tagname").val();
+
+            let user_id = getuserID();
+
+            if (!tagname) {
+                alert("Enter the tagname !!!");
+                return;
+            }
+
+            let data = {
+                tagname: tagname,
+                userid: user_id
+            }
+
+            $.ajax({
+                url: "/api/tag",
+                type: "POST",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(data)
+            })
+                .done(function (result) {
+                    console.log("result: ", result);
+                    getlistTag(user_id);
+                    $("#dialogtag").hide();
+                })
+                .fail(function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem!");
+                    console.log("Error: ", errorThrown);
+                    console.log("Status: ", status);
+                    console.dir(xhr);
+                });
+
+        })
+
+        $("#addnew").click(function (event) {
+            $("#title").val("");
+            $("#content").val("");
+            $("#dialog").show();
+        });
+        $("#btnadd").click(function () {
+
+            let title = $("#titlenote").val();
+
+            let content = $("#contentnote").val();
+
+            let tag = $("#selm").val();
+
+            let userid = getuserID();
+
+            let data = {
+                titlenote: title,
+                contentnote: content,
+                tags: tag,
+                userid: userid
+            }
+
+            if (!title || !content) {
+                alert("Fill title and content please !!!");
+                return;
+            }
+            $.ajax({
+                url: "/api/note",
+                method: "POST",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(data)
+            })
+                .done(function (result) {
+                    console.log("result: ", result);
+                    getlistnote(userid);
+                })
+                .fail(function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem!");
+                    console.log("Error: ", errorThrown);
+                    console.log("Status: ", status);
+                    console.dir(xhr);
+                })
+
+        });
+        $("#btnlogout").click(function () {
+            $.ajax({
+                url: "api/logout",
+                method: "GET",
+            })
+                .done(function () {
+                    window.location.href = "/"
+                })
+                .fail(function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem!");
+                    console.log("Error: ", errorThrown);
+                    console.log("Status: ", status);
+                    console.dir(xhr);
+                })
+        })
+
+
+        $("#btnclose").click(function () {
+            $("#dialog").hide();
+        })
+
+        $("#addtag").click(function () {
+            $("#dialogtag").show();
+            $("#tagname").val("");
+        });
+
+        $("#btnclosetag").click(function () {
+            $("#dialogtag").hide();
+        });
+
+        $("#edittag").click(function () {
+            $("#dialogtaglist").show();
+            getlistTag();
+        });
+
+        $("#btnclosetaglist").click(function () {
+            $("#dialogtaglist").hide();
+        });
+
+
+    });
+
+    function checkName() {
+        if (document.cookie.length != null) {
+            $("#dialoglogin").hide();
+        }
+        $("#dialoglogin").show();
+        $.ajax({
+            url: "/api/name/check",
+            type: "GET"
+        })
+            .done(function (result) {
+                console.log("result:", result);
+                $("#username").empty();
+                $("#username").append(result.name);
+                $("#user-id").val(result._id);
+                $("#dialoglogin").hide();
+
+                getlistTag(result._id);
+                getlistnote(result._id);
+
+            })
+            .fail(function (xhr, status, errorThrown) {
+                console.log("Error: ", errorThrown);
+                console.log("Status: ", status);
+                console.dir(xhr);
+
+                $("#username").empty();
+                getlistTag();
+                // $("#dialoglogin").modal();
+            });
+    }
+
+    function getlistTag(userid) {
+        if (!userid) {
+            return
+        }
+        ;
+        $.ajax({
+            url: "/api/taglist/" + userid,
+            method: "GET"
+        })
+            .done(function (result) {
+                console.log(result);
+                $("#dialoglist").empty();
+                $("#taglist").empty();
+                $("#selm").empty();
+                $("#selmupdate").empty();
+                if (result) {
+                    result.forEach(function (element) {
+
+                        $("#selm").append("<option class='fa fa-tag' value='" + element.id + "'>&emsp;" + element.tagname + "</option>");
+                        $("#selm").selectpicker('refresh');
+
+                        $("#selmupdate").append("<option class='fa fa-tag' value='" + element.id + "'>&emsp;" + element.tagname + "</option>");
+                        $("#selmupdate").selectpicker('refresh');
+
+                        $("#taglist").append("	<li class='nav-item' onclick='listnotebytag(&#39;" + element.id + "&#39;)'><a class='nav-link active' href='#'>" +
+                            "<em class='fa fa-tag'>&nbsp;</em>" + element.tagname + " <span class='sr-only'>(current)</span></a></li>");
+
+                        $("#dialoglist").append(
+                            "<tbody>" +
+                            "<tr>" +
+                            "<td>" +
+                            "<a class='fa fa-trash-o' onclick='editdeltag(&#39;" + element.id + "&#39;)' href='#''>&emsp;</a>" +
+                            // "</td>" +
+                            // "<td>" +
+                            "<a class='align-bottom fa fa-pencil' onclick='updatetag(&#39;" + element.id + "&#39;)' href='#''>&emsp;</a>" +
+                            // "</td>" +
+                            // "<td>"
+                            element.tagname + "</td>" +
+                            "</tr>" +
+                            "</tbody>");
+
+                    })
+                }
+            })
+            .fail(function (xhr, status, errorThrown) {
+                console.log("Error: ", errorThrown);
+                console.log("Status: ", status);
+                console.dir(xhr);
+            });
+    }
+
+    function editdeltag(id) {
+        if (!id) {
+            return
+        }
+        ;
+
+        let user_id = getuserID();
+
+        let data = {
+            id: id,
+            userid: user_id
+        }
+
+        $.ajax({
+            url: "/api/delete/tag/" + id,
+            method: "DELETE",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(data)
+        })
+            .done(function (result) {
+                console.log(result);
+                getlistTag(user_id)
+            })
+            .fail(function (xhr, status, errorThrown) {
+                console.log("Error: ", errorThrown);
+                console.log("Status: ", status);
+                console.dir(xhr);
+            });
+    }
+
+    function updatetag(element) {
+
+        $("#dialogtagedit").show();
+
+        $("#dialogtaglist").hide();
+
+        $("#btncloseedittag").click(function () {
+            $("#dialogtagedit").hide();
+            $("#dialogtaglist").show();
+        })
+        $("#btnupdatetag").click(function () {
+            if (!element) {
+                return
+            }
+
+            let tagname = $("#tagnameupdate").val();
+
+            let user_id = getuserID();
+
+            let tag_id = element;
+
+            if (!tagname) {
+                alert("Enter the tagname !!!");
+                return;
+            }
+
+            let data = {
+                tagname: tagname,
+                userid: user_id,
+                id: tag_id
+            }
+
+            $.ajax({
+                url: "/api/tag/update/",
+                type: "PUT",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(data)
+            })
+                .done(function (result) {
+                    console.log("result: ", result);
+                    getlistTag(user_id);
+                    $("#dialogtagedit").hide();
+                    $("#dialogtaglist").show();
+                })
+                .fail(function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem!");
+                    console.log("Error: ", errorThrown);
+                    console.log("Status: ", status);
+                    console.dir(xhr);
+                });
+        })
+    }
+
+    function getlistnote(userid) {
+        if (!userid) {
+            return
+        }
+
+        let tagList = JSON.parse(getTagListUser(userid));
+
+        $.ajax({
+            url: "/api/listnote/" + userid,
+            method: "GET"
+        })
+            .done(function (result) {
+                console.log(result);
+                $('#cardbox').empty();
+                $("#titlenote").val("");
+
+                $("#contentnote").val("");
+                getlistTag(userid);
+
+                $("#selm").selectpicker('refresh');
+                $("#dialog").hide();
+                if (result) {
+                    result.forEach(function (element) {
+                        let tagname = "";
+                        console.log("ele", element);
+                        if (element.tags)
+                            element.tags.forEach(item => {
+                                tagname = tagname + "<button class='btn btn-custom' onclick='deltag(&#39;" + element.id + "&#39;,&#39;" + item + "&#39;)'>" + getNameTag(tagList, item) + "&ensp;<i class='fa fa-close'></i></button>&ensp;";
+
+                            });
+                        $("#cardbox").append("<div class='col-lg-4 mb-4'>" +
+                            "<div class='card text-white bg-info' id='box'>" +
+                            "<div class='card-header'>" + "<p>" + element.titlenote + "</p>" +
+                            "<div class='dropdown card-title-btn-container'>" +
+                            "<button class='btn btn-info btn-sm dropdown-toggle' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><em class='fa fa-ellipsis-v'></em></button>" +
+                            "<div class='dropdown-menu dropdown-menu-right' aria-labelledby='dropdownMenuButton'><a class='dropdown-item' href='#' onclick='upNote(`" + element.id + "`,`"+element.titlenote+"`, `"+element.contentnote+"`, `"+element.tags+"`)'><em class='fa fa-pencil mr-1'></em>Update</a>" +
+                            "<a class='dropdown-item' href='#' onclick='delnote(&#39;" + element.id + "&#39;)'><em class='fa fa-trash mr-1'></em>&nbsp;Delete</a>" +
+                            "</div>" +
+                            "</div>" +
+                            "<div class='card-block' >" +
+                            "<div class='row'>" +
+                            "<div class='col-md-9'>" +
+                            "<p>" + element.contentnote + "</p>" +
+                            tagname +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>");
+                    })
+                }
+            })
+            .fail(function (xhr, status, errorThrown) {
+                console.log("Error: ", errorThrown);
+                console.log("Status: ", status);
+                console.dir(xhr);
+            });
+
+    }
+
+    function listnotebytag(id) {
+        if (!id) {
+            return;
+        }
+        notetag = id;
+        let userid = getuserID();
+        let tagList = JSON.parse(getTagListUser(userid));
+        console.log("id: ", id);
+        $.ajax({
+            url: "api/listnotebytag/" + userid + "/" + notetag,
+            method: "GET",
+        })
+            .done(function (result) {
+                $("#cardbox").empty();
+                console.log("result:",result);
+                if (result) {
+                    result.forEach(function (element) {
+                        let tagname = "";
+                        if (element.tags)
+                            element.tags.forEach(item => {
+                                tagname = tagname + "<button class='btn btn-custom' onclick='deltag(&#39;" + element.id + "&#39;,&#39;" + item + "&#39;)'>" + getNameTag(tagList, item) + "&ensp;<i class='fa fa-close' onclick='deltag("+element.id+","+item+")'></i></button>&ensp;";
+
+                            });
+                        $("#cardbox").append("<div class='col-lg-4 mb-4'>" +
+                            "<div class='card text-white bg-info' id='box'>" +
+                            "<div class='card-header'>" + "<p>" + element.titlenote + "</p>" +
+                            "<div class='dropdown card-title-btn-container'>" +
+                            "<button class='btn btn-info btn-sm dropdown-toggle' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><em class='fa fa-ellipsis-v'></em></button>" +
+                            "<div class='dropdown-menu dropdown-menu-right' aria-labelledby='dropdownMenuButton'><a class='dropdown-item' href='#' onclick='upNote(" + element.id + ","+element.titlenote+","+element.contentnote+")'><em class='fa fa-pencil mr-1'></em>Update</a>" +
+                            "<a class='dropdown-item' href='#' onclick='delnote(&#39;" + element.id + "&#39;)'><em class='fa fa-trash mr-1'></em>&nbsp;Delete</a>" +
+                            "</div>" +
+                            "</div>" +
+                            "<div class='card-block' >" +
+                            "<div class='row'>" +
+                            "<div class='col-md-9'>" +
+                            "<p>" + element.contentnote + "</p>" +
+                            tagname +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>");
+                    })
+                }
+            })
+            .fail(function (xhr, status, errorThrown) {
+                console.log("Error: ", errorThrown);
+                console.log("Status: ", status);
+                console.dir(xhr);
+            });
+    }
+    function getNameTag(tagList, id) {
+        let name = "";
+        console.log(tagList, id);
+        tagList.forEach(item => {
+            if (item.id == id) {
+                console.log(item.id, id, item.tagname);
+                name = item.tagname;
+            }
+        });
+        return name;
+    }
+
+    function getTagListUser(userid) {
+        if (!userid) return;
+
+        return $.ajax({
+            url: "/api/taglist/" + userid,
+            method: "GET",
+            async: false
+        })
+            .responseText;
+    }
+
+    function delnote(id) {
+        if (!id) {
+            return;
+        }
+        let user_id = getuserID();
+
+        let data = {
+            id: id,
+            userid: user_id
+        }
+        $.ajax({
+            url: "api/delete/" + id,
+            method: "DELETE",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(data)
+        })
+            .done(function (result) {
+                console.log("result:", result);
+                getlistnote(user_id);
+            })
+            .fail(function (xhr, status, errorThrown) {
+                console.log("Error: ", errorThrown);
+                console.log("Status: ", status);
+                console.dir(xhr);
+            });
+    }
+
+    function upNote(id,title,content,tagname) {
+        $("#dialogUpdateNote").show();
+        tagname = tagname.split(",");
+        console.log(tagname)
+        // console.log(title);
+        // console.log(content);
+        $("#updatetitle").val(title);
+        $("#updatecontent").val(content);
+        $("#selmupdate").val(tagname);
+        $("#btncloseupdate").click(function () {
+            $("#dialogUpdateNote").hide();
+        })
+        $("#btnupdate").unbind("click");
+        $("#btnupdate").click(function () {
+
+            if (!id) {
+                return;
+            }
+
+            let note_id = id;
+
+            let title = $("#updatetitle").val();
+
+            let content = $("#updatecontent").val();
+            let tag = $("#selmupdate").val();
+            console.log($("#selmupdate").val());
+            let userid = getuserID();
+
+            let data = {
+                titlenote: title,
+                contentnote: content,
+                tags: tag,
+                userid: userid,
+                id: note_id,
+            }
+
+            if (!title || !content) {
+                alert("Fill title and content please !!!");
+                return;
+            }
+            console.log(data)
+            $.ajax({
+                url: "/api/updateNote",
+                type: "PUT",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(data)
+            })
+                .done(function (result) {
+                    console.log("result: ", result);
+                    console.log("id : ", userid);
+                    getlistnote(userid);
+                    $("#dialogUpdateNote").hide();
+                })
+                .fail(function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem!");
+                    console.log("Error: ", errorThrown);
+                    console.log("Status: ", status);
+                    console.dir(xhr);
+                });
+        })
+    }
+    let notetag = null;
+    function deltag(noteid, tags) {
+        console.log("noteid", noteid)
+        let user_id = getuserID();
+        var tag = [];
+        console.log("userid: ", user_id);
+        $.ajax({
+            url: "api/getnote/" + noteid,
+            method: "GET",
+            success: function (result) {
+                for(let i=0;i<result.tags.length;i++){
+                    if(result.tags[i] !== tags){
+                        tag.push(result.tags[i]);
+                    }
+                }
+                let data = {
+                    id: noteid,
+                    tags: tag,
+                    userid: result.userid,
+                    titlenote: result.titlenote,
+                    contentnote: result.contentnote
+                }
+                console.log(data)
+                $.ajax({
+                    url: "api/updateNote",
+                    method: "PUT",
+                    contentType: "application/json; charset=UTF-8",
+                    data: JSON.stringify(data)
+                })
+                    .done(function (result) {
+                        console.log("result: ", result);
+                        listnotebytag(notetag);
+                        if(notetag===null)
+                            getlistnote(user_id);
+                    })
+                    .fail(function (xhr, status, errorThrown) {
+                        alert("Sorry, there was a problem!");
+                        console.log("Error: ", errorThrown);
+                        console.log("Status: ", status);
+                        console.dir(xhr);
+                    });
+            }
+        })
+
+    }
+
+    function getuserID() {
+        return $("#user-id").val();
+    }
+
+</script>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/chart.min.js"></script>
+<script src="js/chart-data.js"></script>
+<script src="js/easypiechart.js"></script>
+<script src="js/easypiechart-data.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/custom.js"></script>
+
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"></script>
+
+</body>
+</html>
